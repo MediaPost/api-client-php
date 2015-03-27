@@ -259,7 +259,7 @@ class MapiClient {
 			throw $e;
 	 	} else {
 	 		$arrResult = json_decode($result, true);
-	 		if($arrResult['response']['erro'] == 1){
+	 		if(isset($arrResult['response']['erro']) && $arrResult['response']['erro'] == 1){
 	 			$e = new MapiException(
 	 				array('error_code' => $arrResult['response']['status'],
 						  'error'      => array(
