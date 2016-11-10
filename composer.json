@@ -1,0 +1,19 @@
+{
+    "name": "mediapost/api-client",
+    "description": "Cliente da API @MediaPost",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vinícius Campitelli",
+            "email": "vsilva@mt4.com.br"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+      "psr-4": {
+        "Mapi\\": "src/"
+      }
+    }
+}
