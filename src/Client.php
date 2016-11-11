@@ -255,7 +255,7 @@ class Client
      */
     public function __call($method, array $args)
     {
-        $bridge = new Request($this);
+        $bridge = new Request\Request($this);
         return \call_user_func_array([$bridge, $method], $args);
     }
 }

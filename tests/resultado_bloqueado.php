@@ -24,7 +24,7 @@ try {
     
     // A função retorna um objeto do tipo Mapi\Response...
     $result = $mapi->get("resultado/bloqueado/cod/{$idMensagem}", null, [
-        Mapi\Request::CONFIG_RANGE => [0, 9] // buscando do 1º ao 10º itens
+        Mapi\Request\Config::RANGE => [0, 9] // buscando do 1º ao 10º itens
     ]);
     
     // Retorna a quantidade de registros que o recurso pode retornar (desconsiderando a paginação)
