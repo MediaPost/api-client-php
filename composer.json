@@ -1,5 +1,5 @@
 {
-    "name": "mediapost/api-client",
+    "name": "mediapost/api-client-php",
     "description": "Cliente da API @MediaPost",
     "type": "library",
     "license": "MIT",
