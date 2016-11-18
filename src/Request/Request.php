@@ -219,20 +219,20 @@ class Request
      *
      * @return Response
      */
-    private function build($path, $method, array $arrCurl = [], array $params = [], $config = null)
+    private function build($path, $method, array $arrCurl = [], array $params = null, $config = null)
     {
         // Monta a URL
         $url = $this->client->getUrlBase() . "/{$path}";
 
-        foreach ($params as $key => $value) {
-            if (\is_array($value)) {
-                $params[$key] = http_build_query($value);
-                $arrCurl[CURLOPT_POSTFIELDS][$key] = http_build_query($value);
+        if ($params === null) {
+            $params = [];
+        } elseif (!empty($params)) {
+            foreach ($params as $key => $value) {
+                if (\is_array($value)) {
+                    $params[$key] = http_build_query($value);
+                    $arrCurl[CURLOPT_POSTFIELDS][$key] = http_build_query($value);
+                }
             }
-        }
-        // $params = \http_build_query($params);
-        if (!empty($arrCurl[CURLOPT_POSTFIELDS])) {
-            // $arrCurl[CURLOPT_POSTFIELDS] = \http_build_query($arrCurl[CURLOPT_POSTFIELDS]);
         }
 
         // Cabeçalhos padrões
