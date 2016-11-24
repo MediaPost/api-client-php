@@ -18,24 +18,21 @@ $arrContato = [
     /*
      * Código da lista onde vai ficar o contato
      */
-    'lista' => 506,
+    'lista' => 1,
     'contato' => [
-        /*
-         * Código do contato no sistema do cliente
-         */
-        'uidcli' => 1,
-        
-        /*
-         * Código do contato no @MediaPost. Usado para atualizar as informações do contato
-         */
-        'cod' => 0,
-        
-        /*
-         * Dados adicionais do contato. usar o método /contato/campos para listar todos os campos disponíveis
-         */
-        'email' => 'teste ' . time(),
-        'livre1' => 'campo livre 1 é é',
-        'livre2' => 'campo livre 2 ó ó ção'
+        [
+            /*
+             * Código do contato no sistema do cliente
+             */
+            'uidcli' => 1,
+            
+            /*
+             * Dados adicionais do contato. usar o método /contato/campos para listar todos os campos disponíveis
+             */
+            'email' => 'email@exemplo.com',
+            'livre1' => 'campo livre 1 é é',
+            'livre2' => 'campo livre 2 ó ó ção'
+        ]
     ]
 ];
 
