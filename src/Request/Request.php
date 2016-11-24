@@ -224,22 +224,15 @@ class Request
         // Monta a URL
         $url = $this->client->getUrlBase() . "/{$path}";
 
-        if ($params === null) {
-            $params = [];
-        } elseif (!empty($params)) {
-            foreach ($params as $key => $value) {
-                if (\is_array($value)) {
-                    $params[$key] = http_build_query($value);
-                    $arrCurl[CURLOPT_POSTFIELDS][$key] = http_build_query($value);
-                }
-            }
+        if (!empty($params)) {
+            $arrCurl[CURLOPT_POSTFIELDS] = \http_build_query($arrCurl[CURLOPT_POSTFIELDS]);
         }
-
+        
         // Cabeçalhos padrões
         $headers = [
             'Accept: application/json',
             'Expect:',
-            $this->buildOauthRequestHeaders($this->client, $method, $url, $params)
+            $this->buildOauthRequestHeaders($this->client, $method, $url, [])
         ];
         
         // Configuraçõs extras
