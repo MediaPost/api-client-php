@@ -7,3 +7,5 @@ $mapi = new Mapi\Client(
     '', /* $Token */
     ''  /* $TokenSecret */
 );
+
+return $mapi;
