@@ -15,7 +15,13 @@ try {
     
     // A função retorna um objeto do tipo Mapi\Response...
     $result = $mapi->delete('contato/bloqueio', [
-        'email' => 'email1@exemplo.com',
+        'email' => [
+            'email1@exemplo.com',
+            'email2@exemplo.com',
+            'email3@exemplo.com',
+            'email4@exemplo.com',
+            'email5@exemplo.com'
+        ]
     ]);
     var_dump($result);
     
