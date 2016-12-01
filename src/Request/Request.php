@@ -161,22 +161,15 @@ class Request
      * @since  2011-03-16
      *
      * @param  string       $path   URL do recurso
-     * @param  array        $params Dados da requisição (opcional)
      * @param  array|Config $config Configurações extras (opcional)
      *
      * @return Response
      */
-    public function delete($path, array $params = null, $config = null)
+    public function delete($path, $config = null)
     {
-        // Permitindo valores null para facilitar a escrita do código
-        if ($params === null) {
-            $params = [];
-        }
-        
         return $this->build($path, self::METHOD_DELETE, [
-            CURLOPT_CUSTOMREQUEST => 'DELETE',
-            CURLOPT_POSTFIELDS => $params
-        ], $params, $config);
+            CURLOPT_CUSTOMREQUEST => 'DELETE'
+        ], [], $config);
     }
     
     /**

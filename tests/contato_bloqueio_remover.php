@@ -14,7 +14,7 @@ try {
     $mapi = require 'conf.php';
     
     // A função retorna um objeto do tipo Mapi\Response...
-    $result = $mapi->delete('contato/bloqueio', [
+    $result = $mapi->put('contato/bloqueio/remover', [
         'email' => [
             'email1@exemplo.com',
             'email2@exemplo.com',
