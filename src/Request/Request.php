@@ -217,7 +217,9 @@ class Request
         // Monta a URL
         $url = $this->client->getUrlBase() . "/{$path}";
 
-        if (!empty($params)) {
+        if ($params === null) {
+            $params = [];
+        } elseif (!empty($params)) {
             $arrCurl[CURLOPT_POSTFIELDS] = \http_build_query($arrCurl[CURLOPT_POSTFIELDS]);
         }
         
@@ -225,7 +227,7 @@ class Request
         $headers = [
             'Accept: application/json',
             'Expect:',
-            $this->buildOauthRequestHeaders($this->client, $method, $url, [])
+            $this->buildOauthRequestHeaders($this->client, $method, $url, $params)
         ];
         
         // Configuraçõs extras
@@ -244,7 +246,7 @@ class Request
         $arrCurl[CURLOPT_RETURNTRANSFER] = true;
         $arrCurl[CURLOPT_HEADER]         = true;
         $arrCurl[CURLOPT_SSL_VERIFYPEER] = false;
-
+        
         // Inicializa o cURL
         $ch = \curl_init();
         \curl_setopt_array($ch, $arrCurl);
