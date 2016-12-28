@@ -8,7 +8,8 @@ Altere o *require* de seu `composer.json` e baixe a dependência com `composer up
   "require": {
     "mediapost/api-client-php": "^1.1.0"
   }
-}```
+}
+```
 Ou adicione diretamente a dependência com `composer require mediapost/api-client-php:^1.1.0`.
 
 ### Manual
