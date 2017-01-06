@@ -40,7 +40,7 @@ class Exception extends \Exception
         if (!empty($result)) {
             $msg = ((isset($result['code'])) ? $result['code'] : $code) . " - {$result['message']}";
         } else {
-            $msg = 'Unknown Error. Check getResult()';
+            $msg = 'Erro desconhecido encontrado.';
         }
 
         parent::__construct(\utf8_decode($msg), $code);
@@ -69,7 +69,6 @@ class Exception extends \Exception
      */
     public function __toString()
     {
-        var_dump($this->result); die;
         $str = $this->result['type'] . ' ';
         if ($this->code != 0) {
             $str .= "{$this->code}: ";
