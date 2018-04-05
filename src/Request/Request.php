@@ -24,35 +24,35 @@ class Request
      * @var string
      */
     const METHOD_GET    = 'GET';
-    
+
     /**
      * Método POST
      *
      * @var string
      */
     const METHOD_POST   = 'POST';
-    
+
     /**
      * Método PUT
      *
      * @var string
      */
     const METHOD_PUT    = 'PUT';
-    
+
     /**
      * Método DELETE
      *
      * @var string
      */
     const METHOD_DELETE = 'DELETE';
-    
+
     /**
      * Cliente da API
      *
      * @var Client
      */
     protected $client = null;
-    
+
     /**
      * Construtor
      *
@@ -65,7 +65,7 @@ class Request
     {
         $this->client = $client;
     }
-    
+
     /**
      * Método que executa uma requisição HTTP GET
      *
@@ -85,12 +85,12 @@ class Request
         if ($params === null) {
             $params = [];
         }
-        
+
         return $this->build($path, self::METHOD_GET, [
             CURLOPT_HTTPGET => true
         ], $params, $config);
     }
-    
+
     /**
      * Método que executa uma requisição HTTP POST
      *
@@ -110,13 +110,13 @@ class Request
         if ($params === null) {
             $params = [];
         }
-        
+
         return $this->build($path, self::METHOD_POST, [
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $params
         ], $params, $config);
     }
-    
+
     /**
      * Método que executa uma requisição HTTP PUT
      *
@@ -147,12 +147,12 @@ class Request
             CURLOPT_INFILE     => $putFile,
             CURLOPT_INFILESIZE => \strlen($putString)
         ], $config);
-        
+
         \fclose($putFile);
-        
+
         return $response;
     }
-    
+
     /**
      * Método que excuta uma requisição HTTP DELETE
      *
@@ -171,7 +171,7 @@ class Request
             CURLOPT_CUSTOMREQUEST => 'DELETE'
         ], [], $config);
     }
-    
+
     /**
      * Método que encoda recursivamente um array para utf8
      *
@@ -194,7 +194,7 @@ class Request
         }
         return $arrData;
     }
-    
+
     /**
      * Método que faz o request de uma url
      *
@@ -222,14 +222,14 @@ class Request
         } elseif (!empty($params)) {
             $arrCurl[CURLOPT_POSTFIELDS] = \http_build_query($arrCurl[CURLOPT_POSTFIELDS]);
         }
-        
+
         // Cabeçalhos padrões
         $headers = [
             'Accept: application/json',
             'Expect:',
             $this->buildOauthRequestHeaders($this->client, $method, $url, $params)
         ];
-        
+
         // Configuraçõs extras
         if ($config !== null) {
             if (\is_array($config)) {
@@ -239,21 +239,21 @@ class Request
             }
             $headers = \array_merge($headers, $config->toArray());
         }
-        
+
         // Parâmetros
         $arrCurl[CURLOPT_URL]            = $url;
         $arrCurl[CURLOPT_HTTPHEADER]     = $headers;
         $arrCurl[CURLOPT_RETURNTRANSFER] = true;
         $arrCurl[CURLOPT_HEADER]         = true;
         $arrCurl[CURLOPT_SSL_VERIFYPEER] = false;
-        
+
         // Inicializa o cURL
         $ch = \curl_init();
         \curl_setopt_array($ch, $arrCurl);
-        
+
         return Response::fromCurlResource($ch);
     }
-    
+
     /**
      * Gera o cabeçalho de autenticação do oAuth
      *
@@ -266,22 +266,22 @@ class Request
      */
     protected function buildOauthRequestHeaders(Client $client, $method, $url, array $params = [])
     {
-        if (!\class_exists('\OAuthConsumer')) {
+        if (!\class_exists('\Mapi\OAuthConsumer')) {
             require __DIR__ . '/../oauth/OAuth.php';
         }
-        
-        $consumer = new \OAuthConsumer($client->getConsumerKey(), $client->getConsumerSecret());
-        $token = new \OAuthToken($client->getToken(), $client->getTokenSecret());
 
-        $request = \OAuthRequest::from_consumer_and_token($consumer, $token, $method, $url);
+        $consumer = new \Mapi\OAuthConsumer($client->getConsumerKey(), $client->getConsumerSecret());
+        $token = new \Mapi\OAuthToken($client->getToken(), $client->getTokenSecret());
+
+        $request = \Mapi\OAuthRequest::from_consumer_and_token($consumer, $token, $method, $url);
 
         // Seta os parâmetros da requisição
         foreach ($params as $name => $value) {
             $request->set_parameter($name, $value);
         }
 
-        $request->sign_request(new \OAuthSignatureMethod_HMAC_SHA1(), $consumer, $token);
-        
+        $request->sign_request(new \Mapi\OAuthSignatureMethod_HMAC_SHA1(), $consumer, $token);
+
         return $request->to_header();
     }
 }

@@ -1,11 +1,17 @@
 <?php
 // vim: foldmethod=marker
 
-/* Generic exception class
+namespace Mapi;
+
+/*
+ * Generic exception class
  */
-class OAuthException extends Exception {
+
+class OAuthException extends \Exception {
   // pass
 }
+
+namespace Mapi;
 
 class OAuthConsumer {
   public $key;
@@ -21,6 +27,8 @@ class OAuthConsumer {
     return "OAuthConsumer[key=$this->key,secret=$this->secret]";
   }
 }
+
+namespace Mapi;
 
 class OAuthToken {
   // access tokens and request tokens
@@ -56,6 +64,9 @@ class OAuthToken {
  * A class for implementing a Signature Method
  * See section 9 ("Signing Requests") in the spec
  */
+
+namespace Mapi;
+
 abstract class OAuthSignatureMethod {
   /**
    * Needs to return the name of the Signature Method (ie HMAC-SHA1)
@@ -106,12 +117,15 @@ abstract class OAuthSignatureMethod {
 }
 
 /**
- * The HMAC-SHA1 signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC2104] 
- * where the Signature Base String is the text and the key is the concatenated values (each first 
- * encoded per Parameter Encoding) of the Consumer Secret and Token Secret, separated by an '&' 
+ * The HMAC-SHA1 signature method uses the HMAC-SHA1 signature algorithm as defined in [RFC2104]
+ * where the Signature Base String is the text and the key is the concatenated values (each first
+ * encoded per Parameter Encoding) of the Consumer Secret and Token Secret, separated by an '&'
  * character (ASCII code 38) even if empty.
  *   - Chapter 9.2 ("HMAC-SHA1")
  */
+
+namespace Mapi;
+
 class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
   function get_name() {
     return "HMAC-SHA1";
@@ -121,7 +135,7 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
     $base_string = $request->get_signature_base_string();
 
     $request->base_string = $base_string;
-	
+
     $key_parts = array(
       $consumer->secret,
       ($token) ? $token->secret : ""
@@ -135,18 +149,21 @@ class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod {
 }
 
 /**
- * The PLAINTEXT method does not provide any security protection and SHOULD only be used 
+ * The PLAINTEXT method does not provide any security protection and SHOULD only be used
  * over a secure channel such as HTTPS. It does not use the Signature Base String.
  *   - Chapter 9.4 ("PLAINTEXT")
  */
+
+namespace Mapi;
+
 class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod {
   public function get_name() {
     return "PLAINTEXT";
   }
 
   /**
-   * oauth_signature is set to the concatenated encoded values of the Consumer Secret and 
-   * Token Secret, separated by a '&' character (ASCII code 38), even if either secret is 
+   * oauth_signature is set to the concatenated encoded values of the Consumer Secret and
+   * Token Secret, separated by a '&' character (ASCII code 38), even if either secret is
    * empty. The result MUST be encoded again.
    *   - Chapter 9.4.1 ("Generating Signatures")
    *
@@ -168,13 +185,16 @@ class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod {
 }
 
 /**
- * The RSA-SHA1 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in 
- * [RFC3447] section 8.2 (more simply known as PKCS#1), using SHA-1 as the hash function for 
- * EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA public key in a 
- * verified way to the Service Provider, in a manner which is beyond the scope of this 
+ * The RSA-SHA1 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in
+ * [RFC3447] section 8.2 (more simply known as PKCS#1), using SHA-1 as the hash function for
+ * EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA public key in a
+ * verified way to the Service Provider, in a manner which is beyond the scope of this
  * specification.
  *   - Chapter 9.3 ("RSA-SHA1")
  */
+
+namespace Mapi;
+
 abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
   public function get_name() {
     return "RSA-SHA1";
@@ -233,6 +253,8 @@ abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod {
     return $ok == 1;
   }
 }
+
+namespace Mapi;
 
 class OAuthRequest {
   protected $parameters;
@@ -378,9 +400,9 @@ class OAuthRequest {
       $this->get_normalized_http_url(),
       $this->get_signable_parameters()
     );
-    
+
     $parts = OAuthUtil::urlencode_rfc3986($parts);
-	
+
     return implode('&', $parts);
   }
 
@@ -494,6 +516,8 @@ class OAuthRequest {
   }
 }
 
+namespace Mapi;
+
 class OAuthServer {
   protected $timestamp_threshold = 300; // in seconds, five minutes
   protected $version = '1.0';             // hi blaine
@@ -572,7 +596,7 @@ class OAuthServer {
   private function get_version(&$request) {
     $version = $request->get_parameter("oauth_version");
     if (!$version) {
-      // Service Providers MUST assume the protocol version to be 1.0 if this parameter is not present. 
+      // Service Providers MUST assume the protocol version to be 1.0 if this parameter is not present.
       // Chapter 7.0 ("Accessing Protected Ressources")
       $version = '1.0';
     }
@@ -586,7 +610,7 @@ class OAuthServer {
    * figure out the signature with some defaults
    */
   private function get_signature_method($request) {
-    $signature_method = $request instanceof OAuthRequest 
+    $signature_method = $request instanceof OAuthRequest
         ? $request->get_parameter("oauth_signature_method")
         : NULL;
 
@@ -611,7 +635,7 @@ class OAuthServer {
    * try to find the consumer for the provided request's consumer key
    */
   private function get_consumer($request) {
-    $consumer_key = $request instanceof OAuthRequest 
+    $consumer_key = $request instanceof OAuthRequest
         ? $request->get_parameter("oauth_consumer_key")
         : NULL;
 
@@ -683,7 +707,7 @@ class OAuthServer {
       throw new OAuthException(
         'Missing timestamp parameter. The parameter is required'
       );
-    
+
     // verify that timestamp is recentish
     $now = time();
     if (abs($now - $timestamp) > $this->timestamp_threshold) {
@@ -716,6 +740,8 @@ class OAuthServer {
 
 }
 
+namespace Mapi;
+
 class OAuthDataStore {
   function lookup_consumer($consumer_key) {
     // implement me
@@ -742,10 +768,12 @@ class OAuthDataStore {
 
 }
 
+namespace Mapi;
+
 class OAuthUtil {
   public static function urlencode_rfc3986($input) {
   if (is_array($input)) {
-    return array_map(array('OAuthUtil', 'urlencode_rfc3986'), $input);
+    return array_map(array('\Mapi\OAuthUtil', 'urlencode_rfc3986'), $input);
   } else if (is_scalar($input)) {
     return str_replace(
       '+',
