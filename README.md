@@ -1,8 +1,8 @@
 # @MediaPost API - Cliente PHP
 
-## Instalação
+## InstalaÃ§Ã£o
 ### Via composer
-Altere o *require* de seu `composer.json` e baixe a dependência com `composer update mediapost/api-client-php`:
+Altere o *require* de seu `composer.json` e baixe a dependÃªncia com `composer update mediapost/api-client-php`:
 ```json
 {
   "require": {
@@ -10,18 +10,18 @@ Altere o *require* de seu `composer.json` e baixe a dependência com `composer up
   }
 }
 ```
-Ou adicione diretamente a dependência com `composer require mediapost/api-client-php:^1.1.0`.
+Ou adicione diretamente a dependÃªncia com `composer require mediapost/api-client-php:^1.1.0`.
 
 ### Manual
-1. Baixe a [última versão](https://github.com/MediaPost/api-client-php/releases/latest) desse cliente e descompacte-a no diretório de sua aplicação
+1. Baixe a [Ãºltima versÃ£o](https://github.com/MediaPost/api-client-php/releases/latest) desse cliente e descompacte-a no diretÃ³rio de sua aplicaÃ§Ã£o
 2. Crie um sistema de *autoloading* ou utilize algum pronto
 3. Inicialize normalmente o cliente
 
-## Código
-### Inicialização
+## CÃ³digo
+### InicializaÃ§Ã£o
 ```php
 <?php
-// Autoloading do composer ou outro à sua escola
+// Autoloading do composer ou outro Ã  sua escolha
 require 'vendor/autoload.php';
 
 // Instanciando o client
@@ -33,45 +33,45 @@ $mapi = new Mapi\Client(
 );
 ```
 
-### Requisições
+### RequisiÃ§Ãµes
 ```php
 <?php
-// Inicialização do cliente ...
+// InicializaÃ§Ã£o do cliente ...
 
 try {
-    // Requisições GET
+    // RequisiÃ§Ãµes GET
     $response = $mapi->get('url/do/recurso');
 
-    // Requisições DELETE
+    // RequisiÃ§Ãµes DELETE
     $response = $mapi->delete('url/do/recurso');
 
-    // Requisições POST
+    // RequisiÃ§Ãµes POST
     $response = $mapi->post('url/do/recurso', [
         'campo' => 'valor',
         'campo2' => 'valor2'
     ]);
 
-    // Requisições PUT
+    // RequisiÃ§Ãµes PUT
     $response = $mapi->put('url/do/recurso', [
         'campo' => 'valor',
         'campo2' => 'valor2'
     ]);
 } catch (Mapi\Exception $e) {
-    // Erro de requisição
+    // Erro de requisiÃ§Ã£o
     var_dump($e);
 } catch (Exception $e) {
-    // Erro genérico (por exemplo, parâmetros inválidos)
+    // Erro genÃ©rico (por exemplo, parÃ¢metros invÃ¡lidos)
     var_dump($e);
 }
 ```
 
 ### Respostas
-Todas as requisições retornam um objeto do tipo `Mapi\Response`.
+Todas as requisiÃ§Ãµes retornam um objeto do tipo `Mapi\Response`.
 ```php
 <?php
-// Inicialização do cliente ...
+// InicializaÃ§Ã£o do cliente ...
 
-// Retorna a quantidade de registros que o recurso pode retornar (desconsiderando a paginação)
+// Retorna a quantidade de registros que o recurso pode retornar (desconsiderando a paginaÃ§Ã£o)
 var_dump($response->getTotalCount());
 
 // Essa classe se comporta como um array...
@@ -81,22 +81,22 @@ foreach ($response as $key => $value) {
     var_dump($key, $value);
 }
 
-// ... e também acessada
+// ... e tambÃ©m acessada
 var_dump(count($response));
 var_dump($response['key']);
 
-// Se preferir lidar realmente com um array, basta invocar o método toArray()
+// Se preferir lidar realmente com um array, basta invocar o mÃ©todo toArray()
 $arr = $response->toArray();
 ```
 
 ## Credenciais
-Para acessar a API, você irá precisar das quatro credenciais de acesso: _Consumer Key, Consumer Secret, Token_ e _Token Secret_.
+Para acessar a API, vocÃª irÃ¡ precisar das quatro credenciais de acesso: _Consumer Key, Consumer Secret, Token e Token Secret_.
 
-Para requisitar esses dados, você deve entrar em contato com a equipe de Suporte, criando um chamado através de sua conta @MediaPost.
+Para requisitar esses dados, vocÃª deve entrar em contato com a equipe de Suporte, criando um chamado atravÃ©s de sua conta @MediaPost.
 
 ## Testes
 A pasta _tests_ possui alguns arquivos para exemplificar o consumo dos recursos.
 
-Antes de acessar algum desses testes, você precisará modificar as credenciais encontradas no arquivo _conf.php_ nessa mesma pasta.
+Antes de acessar algum desses testes, vocÃª precisarÃ¡ modificar as credenciais encontradas no arquivo _conf.php_ nessa mesma pasta.
 
-Toda a documentação está disponível em https://www.mediapost.com.br/api/.
+Toda a documentaÃ§Ã£o estÃ¡ disponÃ­vel em https://www.mediapost.com.br/api/.
