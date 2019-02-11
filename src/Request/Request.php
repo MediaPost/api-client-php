@@ -84,6 +84,9 @@ class Request
         // Permitindo valores null para facilitar a escrita do código
         if ($params === null) {
             $params = [];
+        } elseif (!empty($params)) {
+            $path .= ((strpos($path, '?') === false) ? '?' : '&') . \http_build_query($params);
+            $params = [];
         }
         
         return $this->build($path, self::METHOD_GET, [

@@ -18,8 +18,15 @@ try {
      * Código da mensagem no @MediaPost
      */
     $cod = 352;
+    $paginacao = [0, 9];
+    $params = [
+        'data_inicio' => '2018-09-27T00:00:00',
+        'data_fim' => '2018-09-27T23:59:59',
+    ];
     
-    $arrResult = $mapi->get("resultado/abertura/cod/{$cod}");
+    $arrResult = $mapi->get("resultado/abertura/cod/{$cod}", $params, [
+        Mapi\Request\Config::RANGE => $paginacao
+    ]);
     var_dump($arrResult);
 } catch (Exception $e) {
     var_dump($e);
